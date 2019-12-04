@@ -1,24 +1,33 @@
+import collections
+
 r = range(147981,691423)
-# r = [123456, 12343, 12534, 12245, 111111, 223450, 123789]
+# r = [111111, 223450, 123789, 112233, 123444, 111122]
 
 valid = set()
 
-for n in r:
+def check_c1(n):
     s = str(n)
-    p = 0
     c1 = True
-    c2 = False
-    for j in range(len(s)):
+    for i in range(len(s)):
         p = 0
-        if j > 0:
-            p = int(s[j-1])
-        d = int(s[j])
+        if i > 0:
+            p = int(s[i-1])
+        d = int(s[i])
         if d < p:
             c1 = False
-        if d == p:
-            c2 = True
-    
-    if c1 and c2:
+    return c1
+
+def check_c2(n):
+    s = str(n)
+    r = collections.defaultdict(int)
+    for i in range(len(s)):
+        d = int(s[i])
+        r[d] = r[d] + 1 
+    return len([x for x in r if r[x] > 1 and r[x] <= 2]) > 0 # part 2
+    # return len([x for x in r if r[x] > 1]) > 0 # part 1
+
+for n in r:
+    if check_c1(n) and check_c2(n):
         valid.add(n)
 
 print(len(valid))
